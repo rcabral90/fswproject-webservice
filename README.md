@@ -1,4 +1,4 @@
-fwsproject-webservice
+fswproject-webservice
 =====================
 
 Webservice for FSWproject
