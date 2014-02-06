@@ -10,31 +10,57 @@ urlpatterns = patterns('',
                        url(r'^$', 'com_fsw_service.views.index'),
                        # url(r'^fswproject_webservice/', include('fswproject_webservice.foo.urls')),
 
-                       #Endpoints
+                       #Endpoints:
                        # User Authentication (Email & Password):
                        url(r'^user_auth/$', 'com_fsw_service.views.user_auth'),
+
+                       #Setters:
                        # Allergies (Patient Id):
-                       url(r'^allergies/$', 'com_fsw_service.views.allergies'),
+                       url(r'^set_allergies/$', 'com_fsw_service.views.allergies'),
                        # Diet (Patient Id):
-                       url(r'^diet/$', 'com_fsw_service.views.diet'),
+                       url(r'^set_diet/$', 'com_fsw_service.views.diet'),
                        # Hospitalizations (Patient Id):
-                       url(r'^hospitalizations/$', 'com_fsw_service.views.hospitalizations'),
+                       url(r'^set_hospitalizations/$', 'com_fsw_service.views.hospitalizations'),
                        # Medications (Patient Id):
-                       url(r'^medications/$', 'com_fsw_service.views.medications'),
+                       url(r'^set_medications/$', 'com_fsw_service.views.medications'),
                        # Assessments (Patient Id):
-                       url(r'^assessments/$', 'com_fsw_service.views.assessments'),
+                       url(r'^set_assessments/$', 'com_fsw_service.views.assessments'),
                        # Prescriptions (Patient Id):
-                       url(r'^prescriptions/$', 'com_fsw_service.views.prescriptions'),
+                       url(r'^set_prescriptions/$', 'com_fsw_service.views.prescriptions'),
                        # Medication History (Patient Id):
-                       url(r'^medication_history/$', 'com_fsw_service.views.medication_history'),
+                       url(r'^set_medication_history/$', 'com_fsw_service.views.medication_history'),
                        # Emergency_Contacts (Patient Id):
-                       url(r'^emergency_contacts/$', 'com_fsw_service.views.emergency_contacts'),
+                       url(r'^set_emergency_contacts/$', 'com_fsw_service.views.emergency_contacts'),
                        # Notes (Patient Id):
-                       url(r'^notes/$', 'com_fsw_service.views.notes'),
+                       url(r'^set_notes/$', 'com_fsw_service.views.notes'),
                        # Doctors (Patient Id):
-                       url(r'^doctors/$', 'com_fsw_service.views.doctors'),
+                       url(r'^set_doctors/$', 'com_fsw_service.views.doctors'),
                        # Patients (Patient Id):
-                       url(r'^patients/$', 'com_fsw_service.views.patients'),
+                       url(r'^set_patients/$', 'com_fsw_service.views.patients'),
+
+                       #Getters:
+                       # Allergies (Patient Id):
+                       url(r'^get_allergies/$', 'com_fsw_service.views.allergies'),
+                       # Diet (Patient Id):
+                       url(r'^get_diet/$', 'com_fsw_service.views.diet'),
+                       # Hospitalizations (Patient Id):
+                       url(r'^get_hospitalizations/$', 'com_fsw_service.views.hospitalizations'),
+                       # Medications (Patient Id):
+                       url(r'^get_medications/$', 'com_fsw_service.views.medications'),
+                       # Assessments (Patient Id):
+                       url(r'^get_assessments/$', 'com_fsw_service.views.assessments'),
+                       # Prescriptions (Patient Id):
+                       url(r'^get_prescriptions/$', 'com_fsw_service.views.prescriptions'),
+                       # Medication History (Patient Id):
+                       url(r'^get_medication_history/$', 'com_fsw_service.views.medication_history'),
+                       # Emergency_Contacts (Patient Id):
+                       url(r'^get_emergency_contacts/$', 'com_fsw_service.views.emergency_contacts'),
+                       # Notes (Patient Id):
+                       url(r'^get_notes/$', 'com_fsw_service.views.notes'),
+                       # Doctors (Patient Id):
+                       url(r'^get_doctors/$', 'com_fsw_service.views.doctors'),
+                       # Patients (Patient Id):
+                       url(r'^get_patients/$', 'com_fsw_service.views.patients'),
 
                        # Uncomment the admin/doc line below to enable admin documentation:
                        url(r'^admin/doc/', include('django.contrib.admindocs.urls')),
