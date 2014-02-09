@@ -25,7 +25,8 @@ def get_prescriptions(query_id):
 
 
 def get_doctors(query_id):
-    return models.Doctor.objects.filter(resident_id=query_id)
+    doctor_list = models.ResidentToDoctor.objects.filter(resident_id=query_id)
+    return models.Doctor.objects.filter(doctor_id=doctor_list)
 
 
 def get_notes(query):

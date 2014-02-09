@@ -420,8 +420,7 @@ class Resident(models.Model):
 
 
 class ResidentToDoctor(models.Model):
-    relationship_id = models.IntegerField(primary_key=True)
-    resident_id = models.IntegerField()
+    resident_id = models.IntegerField(primary_key=True)
     doctor_id = models.IntegerField()
 
     class Meta:

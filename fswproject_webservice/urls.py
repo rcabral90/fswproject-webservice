@@ -13,6 +13,7 @@ urlpatterns = patterns('',
                        #Endpoints:
                        # User Authentication (Email & Password):
                        url(r'^user_auth/$', 'com_fsw_service.views.user_auth'),
+                       url(r'^logout/$','com_fsw_service.views.user_logout'),
 
                        #Setters:
                        # Allergies (Patient Id):
