@@ -42,7 +42,7 @@ def get_assessments(query_id):
 
 
 def get_medications(query_id):
-    return models.AllergicMedication.objects.filter(resident_id=query_id)
+    return models.Medication.objects.filter(resident_id=query_id)
 
 
 def get_allergies(query_id):
