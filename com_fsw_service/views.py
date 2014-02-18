@@ -1,5 +1,6 @@
 # Create your views here.
 import simplejson as json
+import time
 from django.http import HttpResponse
 from django.contrib.auth import authenticate
 from django.contrib.auth import login
@@ -20,7 +21,7 @@ def user_auth(request):
         username = request.GET['username']
         password = request.GET['password']
         user = authenticate(username=username, password=password)
-        if(user is not None):
+        if user is not None:
                 if user.is_active:
                         login(request, user)
                         #success page
@@ -98,6 +99,22 @@ def assessments(request):
         json_products = [ob.as_json() for ob in empty_set]
         return HttpResponse(json.dumps(json_products), content_type="application/json")
 
+def set_assessments(request):
+    try:
+        #data
+        resident_id = request.POST['rid']
+        weight = request.POST['weight']
+        assessment_date = time.strftime("%d/%m/%Y")
+        blood_pressure = request.POST['blood_pressure']
+        assessment_notes = request.POST['assessment_notes']
+        query = sql.set_assessments(resident_id,weight,assessment_date,blood_pressure,assessment_notes)
+        if query is not None:
+            return HttpResponse(json.dumps({'success':'1','id':str(query)}), content_type="application/json")
+        else:
+            return HttpResponse(json.dumps({'success':'0','error':'sql statement was incorrect.'}), content_type="application/json")
+    except Exception, e:
+        return HttpResponse(json.dumps({'success':'0','error':str(e)}), content_type="application/json")
+
 
 def prescriptions(request):
     try:
@@ -110,6 +127,21 @@ def prescriptions(request):
         json_products = [ob.as_json() for ob in empty_set]
         return HttpResponse(json.dumps(json_products), content_type="application/json")
 
+def set_prescriptions(request):
+    try:
+        resident_id = request.POST['rid']
+        medication_id = request.POST['medication_id']
+        date_ordered = request.POST['date_ordered']
+        date_received = request.POST['date_received']
+        refill_date = request.POST['refill_date']
+        quantity = request.POST['quantity']
+        query = sql.set_prescriptions(resident_id,medication_id,date_ordered,date_received,refill_date,quantity)
+        if query is not None:
+            return HttpResponse(json.dumps({'success':'1','id':str(query)}), content_type="application/json")
+        else:
+            return HttpResponse(json.dumps({'success':'0','error':'sql statement was incorrect.'}), content_type="application/json")
+    except Exception, e:
+        return HttpResponse(json.dumps({'success':'0','error':str(e)}), content_type="application/json")
 
 def medication_history(request):
     try:
@@ -158,6 +190,20 @@ def doctors(request):
         json_products = [ob.as_json() for ob in empty_set]
         return HttpResponse(json.dumps(json_products), content_type="application/json")
 
+def set_doctors(request):
+    try:
+        first_name = request.POST['first_name']
+        middle_name = request.POST['middle_name']
+        last_name = request.POST['last_name']
+        specialization = request.POST['specialization']
+        phone_number = request.POST['phone_number']
+        query = sql.set_doctors(first_name,middle_name,last_name,specialization,phone_number)
+        if query is not None:
+            return HttpResponse(json.dumps({'success':'1','id':str(query)}), content_type="application/json")
+        else:
+            return HttpResponse(json.dumps({'success':'0','error':'sql statement was incorrect.'}), content_type="application/json")
+    except Exception, e:
+        return HttpResponse(json.dumps({'success':'0','error':str(e)}), content_type="application/json")
 
 def patients(request):
     try:

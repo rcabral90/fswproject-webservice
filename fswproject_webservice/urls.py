@@ -25,9 +25,9 @@ urlpatterns = patterns('',
                        # Medications (Patient Id):
                        url(r'^set_medications/$', 'com_fsw_service.views.medications'),
                        # Assessments (Patient Id):
-                       url(r'^set_assessments/$', 'com_fsw_service.views.assessments'),
+                       url(r'^set_assessments/$', 'com_fsw_service.views.set_assessments'),
                        # Prescriptions (Patient Id):
-                       url(r'^set_prescriptions/$', 'com_fsw_service.views.prescriptions'),
+                       url(r'^set_prescriptions/$', 'com_fsw_service.views.set_prescriptions'),
                        # Medication History (Patient Id):
                        url(r'^set_medication_history/$', 'com_fsw_service.views.medication_history'),
                        # Emergency_Contacts (Patient Id):
@@ -35,7 +35,7 @@ urlpatterns = patterns('',
                        # Notes (Patient Id):
                        url(r'^set_notes/$', 'com_fsw_service.views.notes'),
                        # Doctors (Patient Id):
-                       url(r'^set_doctors/$', 'com_fsw_service.views.doctors'),
+                       url(r'^set_doctors/$', 'com_fsw_service.views.set_doctors'),
                        # Patients (Patient Id):
                        url(r'^set_patients/$', 'com_fsw_service.views.patients'),
 
