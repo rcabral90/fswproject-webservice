@@ -12,6 +12,7 @@ urlpatterns = patterns('',
 
                        #Endpoints:
                        # User Authentication (Email & Password):
+                       url(r'^new_user/$', 'com_fsw_service.views.new_user'),
                        url(r'^user_auth/$', 'com_fsw_service.views.user_auth'),
                        url(r'^logout/$','com_fsw_service.views.user_logout'),
 

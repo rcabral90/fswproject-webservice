@@ -15,6 +15,26 @@ def index(request):
                               context_instance=RequestContext(request))
 
 
+def new_user(request):
+    try:
+        #adds a new user to the django database, note that - django database, not the fsw database!
+        username = request.POST['username']
+        password = request.POST['password']
+        first_name = request.POST['first_name']
+        last_name = request.POST['last_name']
+        new_entry = User.objects.create_user()
+        new_entry.username = username
+        new_entry.password = password
+        new_entry.first_name = first_name
+        new_entry.last_name = last_name
+        new_entry.save()
+        if new_entry is not None:
+            return HttpResponse(json.dumps({'success':'1','id':str(query)}), content_type="application/json")
+        else:
+            return HttpResponse(json.dumps({'success':'0','error':'sql statement was incorrect.'}), content_type="application/json")
+    except Exception, e:
+        return HttpResponse(json.dumps({'success':'0','error':str(e)}), content_type="application/json")
+
 def user_auth(request):
     try :
         #GET is for testing only, change this stuff to POST when we make the login page!
