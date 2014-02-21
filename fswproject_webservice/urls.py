@@ -12,32 +12,33 @@ urlpatterns = patterns('',
 
                        #Endpoints:
                        # User Authentication (Email & Password):
+                       url(r'^new_user/$', 'com_fsw_service.views.new_user'),
                        url(r'^user_auth/$', 'com_fsw_service.views.user_auth'),
                        url(r'^logout/$','com_fsw_service.views.user_logout'),
 
                        #Setters:
                        # Allergies (Patient Id):
-                       url(r'^set_allergies/$', 'com_fsw_service.views.allergies'),
+                       url(r'^set_allergies/$', 'com_fsw_service.views.allergies'), # need to do this
                        # Diet (Patient Id):
-                       url(r'^set_diet/$', 'com_fsw_service.views.diet'),
+                       url(r'^set_diet/$', 'com_fsw_service.views.set_diet'),
                        # Hospitalizations (Patient Id):
-                       url(r'^set_hospitalizations/$', 'com_fsw_service.views.hospitalizations'),
+                       url(r'^set_hospitalizations/$', 'com_fsw_service.views.set_hospitalization'),
                        # Medications (Patient Id):
-                       url(r'^set_medications/$', 'com_fsw_service.views.medications'),
+                       url(r'^set_medications/$', 'com_fsw_service.views.medications'), # need to do this
                        # Assessments (Patient Id):
-                       url(r'^set_assessments/$', 'com_fsw_service.views.assessments'),
+                       url(r'^set_assessments/$', 'com_fsw_service.views.set_assessments'),
                        # Prescriptions (Patient Id):
-                       url(r'^set_prescriptions/$', 'com_fsw_service.views.prescriptions'),
+                       url(r'^set_prescriptions/$', 'com_fsw_service.views.set_prescriptions'),
                        # Medication History (Patient Id):
-                       url(r'^set_medication_history/$', 'com_fsw_service.views.medication_history'),
+                       url(r'^set_medication_history/$', 'com_fsw_service.views.set_medication_history'),
                        # Emergency_Contacts (Patient Id):
-                       url(r'^set_emergency_contacts/$', 'com_fsw_service.views.emergency_contacts'),
+                       url(r'^set_emergency_contacts/$', 'com_fsw_service.views.emergency_contacts'), # need to do this
                        # Notes (Patient Id):
-                       url(r'^set_notes/$', 'com_fsw_service.views.notes'),
+                       url(r'^set_notes/$', 'com_fsw_service.views.notes'), # need to do this
                        # Doctors (Patient Id):
-                       url(r'^set_doctors/$', 'com_fsw_service.views.doctors'),
+                       url(r'^set_doctors/$', 'com_fsw_service.views.set_doctors'),
                        # Patients (Patient Id):
-                       url(r'^set_patients/$', 'com_fsw_service.views.patients'),
+                       url(r'^set_patients/$', 'com_fsw_service.views.set_patient'),
 
                        #Getters:
                        # Allergies (Patient Id):
