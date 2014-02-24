@@ -1,18 +1,41 @@
 # Create your views here.
+from django.contrib.auth.models import User
+from django.views.decorators.csrf import csrf_exempt
+from rest_framework import generics
+from rest_framework.tests.users.serializers import UserSerializer
 import simplejson as json
 import time
 from django.http import HttpResponse
 from django.contrib.auth import authenticate
 from django.contrib.auth import login
 from django.contrib.auth import logout
-from django.shortcuts import render_to_response
-from django.template import RequestContext
+from com_fsw_service.models import Diet, AuthUser
 from com_fsw_sql import sql
+from com_fsw_sql.Serializers import DietSerializer
+from rest_framework.decorators import api_view
+from rest_framework.response import Response
+from rest_framework.reverse import reverse
 
 
-def index(request):
-    return render_to_response('index.html',
-                              context_instance=RequestContext(request))
+@api_view(('GET',))
+def api_root(request, format=None):
+    return Response({
+        'diets details': reverse('diets-details', request=request, format=format, args="*"),
+        'user login': reverse('user login', request=request, format=format),
+        'user logout': reverse('user logout', request=request, format=format),
+        'new user': reverse('new user', request=request, format=format),
+    })
+
+
+class DietViewSet(generics.ListCreateAPIView):
+    serializer_class = DietSerializer
+
+    def get_queryset(self):
+        q = self.kwargs['resident_id']
+        if q != '*':
+            return Diet.objects.filter(resident_id=q)
+        else:
+            return Diet.objects.all()
 
 
 def new_user(request):
@@ -29,7 +52,7 @@ def new_user(request):
         new_entry.last_name = last_name
         new_entry.save()
         if new_entry is not None:
-            return HttpResponse(json.dumps({'success': '1', 'id': str(query)}), content_type="application/json")
+            return HttpResponse(json.dumps({'success': '1', 'id': str(new_entry)}), content_type="application/json")
         else:
             return HttpResponse(json.dumps({'success': '0', 'error': 'sql statement was incorrect.'}),
                                 content_type="application/json")
@@ -70,43 +93,13 @@ def user_logout(request):
 def allergies(request):
     try:
         query = request.GET['q']
-        json_products = [ob.as_json() for ob in sql.get_allergies(query)] #implement this
+        json_products = [ob.as_json() for ob in sql.get_allergies(query)]  #implement this
         return HttpResponse(json.dumps(json_products, default=date_handler), content_type="application/json")
     except Exception, e:
         print str(e)
         empty_set = []
         json_products = [ob.as_json() for ob in empty_set]
         return HttpResponse(json.dumps(json_products), content_type="application/json")
-
-
-def diet(request):
-    try:
-        query = request.GET['q']
-        json_products = [ob.as_json() for ob in sql.get_diet(query)]
-        return HttpResponse(json.dumps(json_products, default=date_handler), content_type="application/json")
-    except Exception, e:
-        print str(e)
-        empty_set = []
-        json_products = [ob.as_json() for ob in empty_set]
-        return HttpResponse(json.dumps(json_products, default=date_handler), content_type="application/json")
-
-
-def set_diet(request):
-    try:
-        #data
-        resident_id = request.POST['rid']
-        diet_id = request.POST['did']
-        diet_title = request.POST['diet_title']
-        diet_description = request.POST['diet_description']
-
-        query = sql.set_diet(resident_id, diet_id, diet_title, diet_description)
-        if query is not None:
-            return HttpResponse(json.dumps({'success': '1', 'id': str(query)}), content_type="application/json")
-        else:
-            return HttpResponse(json.dumps({'success': '0', 'error': 'sql statement was incorrect.'}),
-                                content_type="application/json")
-    except Exception, e:
-        return HttpResponse(json.dumps({'success': '0', 'error': str(e)}), content_type="application/json")
 
 
 def hospitalizations(request):
@@ -121,6 +114,7 @@ def hospitalizations(request):
         return HttpResponse(json.dumps(json_products, default=date_handler), content_type="application/json")
 
 
+@csrf_exempt
 def set_hospitalization(request):
     try:
         #data
@@ -149,7 +143,7 @@ def set_hospitalization(request):
 def medications(request):
     try:
         query = request.GET['q']
-        json_products = [ob.as_json() for ob in sql.get_medications(query)] #implement this
+        json_products = [ob.as_json() for ob in sql.get_medications(query)]  #implement this
         return HttpResponse(json.dumps(json_products, default=date_handler), content_type="application/json")
     except Exception, e:
         print str(e)
@@ -161,7 +155,7 @@ def medications(request):
 def assessments(request):
     try:
         query = request.GET['q']
-        json_products = [ob.as_json() for ob in sql.get_assessments(query)] #implement this
+        json_products = [ob.as_json() for ob in sql.get_assessments(query)]  #implement this
         return HttpResponse(json.dumps(json_products, default=date_handler), content_type="application/json")
     except Exception, e:
         print str(e)
@@ -170,6 +164,7 @@ def assessments(request):
         return HttpResponse(json.dumps(json_products), content_type="application/json")
 
 
+@csrf_exempt
 def set_assessments(request):
     try:
         #data
@@ -200,6 +195,7 @@ def prescriptions(request):
         return HttpResponse(json.dumps(json_products), content_type="application/json")
 
 
+@csrf_exempt
 def set_prescriptions(request):
     try:
         resident_id = request.POST['rid']
@@ -230,6 +226,7 @@ def medication_history(request):
         return HttpResponse(json.dumps(json_products), content_type="application/json")
 
 
+@csrf_exempt
 def set_medication_history(request):
     try:
         medication_id = request.POST['mid']
@@ -258,7 +255,7 @@ def set_medication_history(request):
 def emergency_contacts(request):
     try:
         query = request.GET['q']
-        json_products = [ob.as_json() for ob in sql.get_emergency_contacts(query)] #implement this
+        json_products = [ob.as_json() for ob in sql.get_emergency_contacts(query)]  #implement this
         return HttpResponse(json.dumps(json_products, default=date_handler), content_type="application/json")
     except Exception, e:
         print str(e)
@@ -270,7 +267,7 @@ def emergency_contacts(request):
 def notes(request):
     try:
         query = request.GET['q']
-        json_products = [ob.as_json() for ob in sql.get_notes(query)] #implement this
+        json_products = [ob.as_json() for ob in sql.get_notes(query)]  #implement this
         return HttpResponse(json.dumps(json_products, default=date_handler), content_type="application/json")
     except Exception, e:
         print str(e)
@@ -291,6 +288,7 @@ def doctors(request):
         return HttpResponse(json.dumps(json_products), content_type="application/json")
 
 
+@csrf_exempt
 def set_doctors(request):
     try:
         first_name = request.POST['first_name']
@@ -320,6 +318,7 @@ def patients(request):
         return HttpResponse(json.dumps(json_products), content_type="application/json")
 
 
+@csrf_exempt
 def set_patient(request):
     try:
         first_name = request.POST['first_name']
