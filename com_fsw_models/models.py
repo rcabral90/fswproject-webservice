@@ -274,8 +274,7 @@ class Medication(models.Model):
     generic_name = models.CharField(max_length=70)
     med_expire = models.DateField()
     med_prescribed = models.DateField()
-    med_dose_mg_field = models.IntegerField(
-        db_column='med_dose(mg)') # Field renamed to remove unsuitable characters. Field renamed because it ended with '_'.
+    med_dose_mg = models.IntegerField()
     med_freq = models.TextField()
     med_purpose = models.TextField()
     note = models.TextField()
@@ -291,7 +290,7 @@ class Medication(models.Model):
             generic_name=self.generic_name,
             med_expire=self.med_expire,
             med_prescribed=self.med_prescribed,
-            med_dose_mg_field=self.med_dose_mg_field,
+            med_dose_mg=self.med_dose_mg,
             med_freq=self.med_freq,
             med_purpose=self.med_purpose,
             note=self.note
@@ -345,6 +344,19 @@ class Miscellaneous(models.Model):
             notes=self.notes
         )
 
+
+class Notes(models.Model):
+    resident_id = models.IntegerField()
+    notes = models.TextField()
+
+    class Meta:
+        db_table = 'notes'
+
+    def as_json(self):
+        return dict(
+            resident_id=self.resident_id,
+            notes=self.notes
+        )
 
 class Physical(models.Model):
     physical_id = models.IntegerField(primary_key=True)

@@ -1,9 +1,6 @@
 from django.conf.urls import patterns, include, url
-from django.views.generic import RedirectView
 from rest_framework.urlpatterns import format_suffix_patterns
 from com_fsw_service import views
-from rest_framework import routers
-# Uncomment the next two lines to enable the admin:
 from django.contrib import admin
 from django.db.models.loading import cache as model_cache
 
@@ -19,9 +16,6 @@ urlpatterns = format_suffix_patterns(patterns('',
                                               url(r'^api-auth/',
                                                   include('rest_framework.urls', namespace='rest_framework')),
 
-                                              url(r'^diets/(?P<resident_id>.+)/$', views.DietViewSet.as_view(),
-                                                  name='diets-details'),
-
                                               # User Authentication (Email & Password):
 
                                               url(r'^new_user/$', 'com_fsw_service.views.new_user',
@@ -33,6 +27,44 @@ urlpatterns = format_suffix_patterns(patterns('',
                                               url(r'^logout/$', 'com_fsw_service.views.user_logout',
                                                   name='user logout'),
 
+                                              url(r'^diets/(?P<resident_id>.+)/$', views.DietViewSet.as_view(),
+                                                  name='diets-details'),
+
+                                              url(r'^allergies/(?P<resident_id>.+)/$', views.AllergiesViewSet.as_view(),
+                                                  name='allergies-details'),
+
+                                              url(r'^hospitalization/(?P<resident_id>.+)/$',
+                                                  views.HospitalizationsViewSet.as_view(),
+                                                  name='hospitalization-details'),
+
+                                              url(r'^medication/(?P<resident_id>.+)/$',
+                                                  views.MedicationsViewSet.as_view(),
+                                                  name='medication-details'),
+
+                                              url(r'^assessment/(?P<resident_id>.+)/$',
+                                                  views.AssessmentsViewSet.as_view(),
+                                                  name='assessment-details'),
+
+                                              url(r'^prescription/(?P<resident_id>.+)/$',
+                                                  views.PrescriptionsViewSet.as_view(),
+                                                  name='prescription-details'),
+
+                                              url(r'^medicationhistory/(?P<resident_id>.+)/$',
+                                                  views.MedicationHistoryViewSet.as_view(),
+                                                  name='medicationhistory-details'),
+
+                                              url(r'^emergencycontacts/(?P<resident_id>.+)/$',
+                                                  views.EmergencyContactsViewSet.as_view(),
+                                                  name='emergencycontacts-details'),
+
+                                              url(r'^notes/(?P<resident_id>.+)/$', views.NotesViewSet.as_view(),
+                                                  name='notes-details'),
+
+                                              url(r'^doctors/(?P<resident_id>.+)/$', views.DoctorsViewSet.as_view(),
+                                                  name='doctors-details'),
+
+                                              url(r'^residents/(?P<resident_id>.+)/$', views.ResidentViewSet.as_view(),
+                                                  name='residents-details'),
 
                                               # Uncomment the admin/doc line below to enable admin documentation:
                                               url(r'^admin/doc/', include('django.contrib.admindocs.urls')),

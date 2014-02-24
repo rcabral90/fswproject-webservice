@@ -131,6 +131,7 @@ INSTALLED_APPS = (
     # Uncomment the next line to enable admin documentation:
     # 'django.contrib.admindocs',
     'rest_framework',
+    'com_fsw_models',
     'com_fsw_service',
 )
 

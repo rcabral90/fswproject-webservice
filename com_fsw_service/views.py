@@ -1,41 +1,39 @@
-# Create your views here.
 from django.contrib.auth.models import User
-from django.views.decorators.csrf import csrf_exempt
 from rest_framework import generics
-from rest_framework.tests.users.serializers import UserSerializer
 import simplejson as json
-import time
 from django.http import HttpResponse
 from django.contrib.auth import authenticate
 from django.contrib.auth import login
 from django.contrib.auth import logout
-from com_fsw_service.models import Diet, AuthUser
-from com_fsw_sql import sql
-from com_fsw_sql.Serializers import DietSerializer
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from rest_framework.reverse import reverse
+
+from com_fsw_models.serializers import *
 
 
 @api_view(('GET',))
 def api_root(request, format=None):
     return Response({
-        'diets details': reverse('diets-details', request=request, format=format, args="*"),
+
         'user login': reverse('user login', request=request, format=format),
         'user logout': reverse('user logout', request=request, format=format),
         'new user': reverse('new user', request=request, format=format),
+
+        'diets details': reverse('diets-details', request=request, format=format, args="*"),
+        'allergies details': reverse('allergies-details', request=request, format=format, args="*"),
+        'hospitalization details': reverse('hospitalization-details', request=request, format=format, args="*"),
+        'medication details': reverse('medication-details', request=request, format=format, args="*"),
+        'assessment details': reverse('assessment-details', request=request, format=format, args="*"),
+        'prescription details': reverse('prescription-details', request=request, format=format, args="*"),
+        'medicationhistory details': reverse('medicationhistory-details', request=request, format=format, args="*"),
+        'emergencycontacts details': reverse('emergencycontacts-details', request=request, format=format, args="*"),
+        'notes details': reverse('notes-details', request=request, format=format, args="*"),
+        'doctors details': reverse('doctors-details', request=request, format=format, args="*"),
+        'residents details': reverse('residents-details', request=request, format=format, args="*"),
+
+
     })
-
-
-class DietViewSet(generics.ListCreateAPIView):
-    serializer_class = DietSerializer
-
-    def get_queryset(self):
-        q = self.kwargs['resident_id']
-        if q != '*':
-            return Diet.objects.filter(resident_id=q)
-        else:
-            return Diet.objects.all()
 
 
 def new_user(request):
@@ -90,257 +88,125 @@ def user_logout(request):
     return HttpResponse(json.dumps({'success': '1'}), content_type="application/json")
 
 
-def allergies(request):
-    try:
-        query = request.GET['q']
-        json_products = [ob.as_json() for ob in sql.get_allergies(query)]  #implement this
-        return HttpResponse(json.dumps(json_products, default=date_handler), content_type="application/json")
-    except Exception, e:
-        print str(e)
-        empty_set = []
-        json_products = [ob.as_json() for ob in empty_set]
-        return HttpResponse(json.dumps(json_products), content_type="application/json")
+class DietViewSet(generics.ListCreateAPIView):
+    serializer_class = DietSerializer
 
-
-def hospitalizations(request):
-    try:
-        query = request.GET['q']
-        json_products = [ob.as_json() for ob in sql.get_hospitalizations(query)]
-        return HttpResponse(json.dumps(json_products, default=date_handler), content_type="application/json")
-    except Exception, e:
-        print str(e)
-        empty_set = []
-        json_products = [ob.as_json() for ob in empty_set]
-        return HttpResponse(json.dumps(json_products, default=date_handler), content_type="application/json")
-
-
-@csrf_exempt
-def set_hospitalization(request):
-    try:
-        #data
-        hospitalization_id = request.POST['hospitalization_id']
-        resident_id = request.POST['rid']
-        hospitalization_date = request.POST['hospitalization_date']
-        hospitalization_location = request.POST['hospitalization_location']
-        duration_of_stay = request.POST['duration_of_stay']
-        reason = request.POST['reason']
-        medication_changes = request.POST['medication_changes']
-        diagnosis = request.POST['diagnosis']
-        notes = request.POST['notes']
-
-        query = sql.set_hospitalizations(hospitalization_id, resident_id, hospitalization_date,
-                                         hospitalization_location, duration_of_stay, reason, medication_changes,
-                                         diagnosis, notes)
-        if query is not None:
-            return HttpResponse(json.dumps({'success': '1', 'id': str(query)}), content_type="application/json")
+    def get_queryset(self):
+        q = self.kwargs['resident_id']
+        if q != '*':
+            return Diet.objects.filter(resident_id=q)
         else:
-            return HttpResponse(json.dumps({'success': '0', 'error': 'sql statement was incorrect.'}),
-                                content_type="application/json")
-    except Exception, e:
-        return HttpResponse(json.dumps({'success': '0', 'error': str(e)}), content_type="application/json")
+            return Diet.objects.all()
 
 
-def medications(request):
-    try:
-        query = request.GET['q']
-        json_products = [ob.as_json() for ob in sql.get_medications(query)]  #implement this
-        return HttpResponse(json.dumps(json_products, default=date_handler), content_type="application/json")
-    except Exception, e:
-        print str(e)
-        empty_set = []
-        json_products = [ob.as_json() for ob in empty_set]
-        return HttpResponse(json.dumps(json_products), content_type="application/json")
+class AllergiesViewSet(generics.ListCreateAPIView):
+    serializer_class = AllergySerializer
 
-
-def assessments(request):
-    try:
-        query = request.GET['q']
-        json_products = [ob.as_json() for ob in sql.get_assessments(query)]  #implement this
-        return HttpResponse(json.dumps(json_products, default=date_handler), content_type="application/json")
-    except Exception, e:
-        print str(e)
-        empty_set = []
-        json_products = [ob.as_json() for ob in empty_set]
-        return HttpResponse(json.dumps(json_products), content_type="application/json")
-
-
-@csrf_exempt
-def set_assessments(request):
-    try:
-        #data
-        resident_id = request.POST['rid']
-        weight = request.POST['weight']
-        assessment_date = time.strftime("%d/%m/%Y")
-        blood_pressure = request.POST['blood_pressure']
-        assessment_notes = request.POST['assessment_notes']
-        query = sql.set_assessments(resident_id, weight, assessment_date, blood_pressure, assessment_notes)
-        if query is not None:
-            return HttpResponse(json.dumps({'success': '1', 'id': str(query)}), content_type="application/json")
+    def get_queryset(self):
+        q = self.kwargs['resident_id']
+        if q != '*':
+            return Allergy.objects.filter(resident_id=q)
         else:
-            return HttpResponse(json.dumps({'success': '0', 'error': 'sql statement was incorrect.'}),
-                                content_type="application/json")
-    except Exception, e:
-        return HttpResponse(json.dumps({'success': '0', 'error': str(e)}), content_type="application/json")
+            return Allergy.objects.all()
 
 
-def prescriptions(request):
-    try:
-        query = request.GET['q']
-        json_products = [ob.as_json() for ob in sql.get_prescriptions(query)]
-        return HttpResponse(json.dumps(json_products, default=date_handler), content_type="application/json")
-    except Exception, e:
-        print str(e)
-        empty_set = []
-        json_products = [ob.as_json() for ob in empty_set]
-        return HttpResponse(json.dumps(json_products), content_type="application/json")
+class HospitalizationsViewSet(generics.ListCreateAPIView):
+    serializer_class = HospitalizationSerializer
 
-
-@csrf_exempt
-def set_prescriptions(request):
-    try:
-        resident_id = request.POST['rid']
-        medication_id = request.POST['medication_id']
-        date_ordered = request.POST['date_ordered']
-        date_received = request.POST['date_received']
-        refill_date = request.POST['refill_date']
-        quantity = request.POST['quantity']
-        query = sql.set_prescriptions(resident_id, medication_id, date_ordered, date_received, refill_date, quantity)
-        if query is not None:
-            return HttpResponse(json.dumps({'success': '1', 'id': str(query)}), content_type="application/json")
+    def get_queryset(self):
+        q = self.kwargs['resident_id']
+        if q != '*':
+            return Hospitalization.objects.filter(resident_id=q)
         else:
-            return HttpResponse(json.dumps({'success': '0', 'error': 'sql statement was incorrect.'}),
-                                content_type="application/json")
-    except Exception, e:
-        return HttpResponse(json.dumps({'success': '0', 'error': str(e)}), content_type="application/json")
+            return Hospitalization.objects.all()
 
 
-def medication_history(request):
-    try:
-        query = request.GET['q']
-        json_products = [ob.as_json() for ob in sql.get_medication_history(query)]
-        return HttpResponse(json.dumps(json_products, default=date_handler), content_type="application/json")
-    except Exception, e:
-        print str(e)
-        empty_set = []
-        json_products = [ob.as_json() for ob in empty_set]
-        return HttpResponse(json.dumps(json_products), content_type="application/json")
+class MedicationsViewSet(generics.ListCreateAPIView):
+    serializer_class = MedicationSerializer
 
-
-@csrf_exempt
-def set_medication_history(request):
-    try:
-        medication_id = request.POST['mid']
-        resident_id = request.POST['rid']
-        med_name = request.POST['med_name']
-        generic_name = request.POST['generic_name']
-        prescribed = request.POST['prescribed']
-        expiration = request.POST['expiration']
-        dosages = request.POST['dosages']
-        frequency = request.POST['frequency']
-        diets = request.POST['diets']
-        purpose = request.POST['purpose']
-        note = request.POST['note']
-
-        query = sql.set_medication_history(medication_id, resident_id, med_name, generic_name, prescribed, expiration,
-                                           dosages, frequency, diets, purpose, note)
-        if query is not None:
-            return HttpResponse(json.dumps({'success': '1', 'id': str(query)}), content_type="application/json")
+    def get_queryset(self):
+        q = self.kwargs['resident_id']
+        if q != '*':
+            return Medication.objects.filter(resident_id=q)
         else:
-            return HttpResponse(json.dumps({'success': '0', 'error': 'sql statement was incorrect.'}),
-                                content_type="application/json")
-    except Exception, e:
-        return HttpResponse(json.dumps({'success': '0', 'error': str(e)}), content_type="application/json")
+            return Medication.objects.all()
 
 
-def emergency_contacts(request):
-    try:
-        query = request.GET['q']
-        json_products = [ob.as_json() for ob in sql.get_emergency_contacts(query)]  #implement this
-        return HttpResponse(json.dumps(json_products, default=date_handler), content_type="application/json")
-    except Exception, e:
-        print str(e)
-        empty_set = []
-        json_products = [ob.as_json() for ob in empty_set]
-        return HttpResponse(json.dumps(json_products), content_type="application/json")
+class AssessmentsViewSet(generics.ListCreateAPIView):
+    serializer_class = AssessmentSerializer
 
-
-def notes(request):
-    try:
-        query = request.GET['q']
-        json_products = [ob.as_json() for ob in sql.get_notes(query)]  #implement this
-        return HttpResponse(json.dumps(json_products, default=date_handler), content_type="application/json")
-    except Exception, e:
-        print str(e)
-        empty_set = []
-        json_products = [ob.as_json() for ob in empty_set]
-        return HttpResponse(json.dumps(json_products), content_type="application/json")
-
-
-def doctors(request):
-    try:
-        query = request.GET['q']
-        json_products = [ob.as_json() for ob in sql.get_doctors(query)]
-        return HttpResponse(json.dumps(json_products, default=date_handler), content_type="application/json")
-    except Exception, e:
-        print str(e)
-        empty_set = []
-        json_products = [ob.as_json() for ob in empty_set]
-        return HttpResponse(json.dumps(json_products), content_type="application/json")
-
-
-@csrf_exempt
-def set_doctors(request):
-    try:
-        first_name = request.POST['first_name']
-        middle_name = request.POST['middle_name']
-        last_name = request.POST['last_name']
-        specialization = request.POST['specialization']
-        phone_number = request.POST['phone_number']
-        query = sql.set_doctors(first_name, middle_name, last_name, specialization, phone_number)
-        if query is not None:
-            return HttpResponse(json.dumps({'success': '1', 'id': str(query)}), content_type="application/json")
+    def get_queryset(self):
+        q = self.kwargs['resident_id']
+        if q != '*':
+            return Assessment.objects.filter(resident_id=q)
         else:
-            return HttpResponse(json.dumps({'success': '0', 'error': 'sql statement was incorrect.'}),
-                                content_type="application/json")
-    except Exception, e:
-        return HttpResponse(json.dumps({'success': '0', 'error': str(e)}), content_type="application/json")
+            return Assessment.objects.all()
 
 
-def patients(request):
-    try:
-        query = request.GET['q']
-        json_products = [ob.as_json() for ob in sql.get_patients(query)]
-        return HttpResponse(json.dumps(json_products, default=date_handler), content_type="application/json")
-    except Exception, e:
-        print str(e)
-        empty_set = []
-        json_products = [ob.as_json() for ob in empty_set]
-        return HttpResponse(json.dumps(json_products), content_type="application/json")
+class PrescriptionsViewSet(generics.ListCreateAPIView):
+    serializer_class = PrescriptionSerializer
 
-
-@csrf_exempt
-def set_patient(request):
-    try:
-        first_name = request.POST['first_name']
-        middle_name = request.POST['middle_name']
-        last_name = request.POST['last_name']
-        address1 = request.POST['address1']
-        address2 = request.POST['address2']
-        city = request.POST['city']
-        state = request.POST['state']
-        zip_code = request.POST['zip_code']
-        home_phone = request.POST['home_phone']
-        cell_phone = request.POST['cell_phone']
-
-        query = sql.set_patients(first_name, middle_name, last_name, address1, address2, city, state,
-                                 zip_code, home_phone, cell_phone)
-        if query is not None:
-            return HttpResponse(json.dumps({'success': '1', 'id': str(query)}), content_type="application/json")
+    def get_queryset(self):
+        q = self.kwargs['resident_id']
+        if q != '*':
+            return Prescription.objects.filter(resident_id=q)
         else:
-            return HttpResponse(json.dumps({'success': '0', 'error': 'sql statement was incorrect.'}),
-                                content_type="application/json")
-    except Exception, e:
-        return HttpResponse(json.dumps({'success': '0', 'error': str(e)}), content_type="application/json")
+            return Prescription.objects.all()
+
+
+class MedicationHistoryViewSet(generics.ListCreateAPIView):
+    serializer_class = MedicationHistorySerializer
+
+    def get_queryset(self):
+        q = self.kwargs['resident_id']
+        if q != '*':
+            return MedicationHistory.objects.filter(resident_id=q)
+        else:
+            return MedicationHistory.objects.all()
+
+
+class EmergencyContactsViewSet(generics.ListCreateAPIView):
+    serializer_class = EmergencyContactSerializer
+
+    def get_queryset(self):
+        q = self.kwargs['resident_id']
+        if q != '*':
+            return EmergencyContact.objects.filter(resident_id=q)
+        else:
+            return EmergencyContact.objects.all()
+
+
+class NotesViewSet(generics.ListCreateAPIView):
+    serializer_class = NotesSerializer
+
+    def get_queryset(self):
+        q = self.kwargs['resident_id']
+        if q != '*':
+            return Notes.objects.filter(resident_id=q)
+        else:
+            return Notes.objects.all()
+
+
+class DoctorsViewSet(generics.ListCreateAPIView):
+    serializer_class = DoctorSerializer
+
+    def get_queryset(self):
+        q = self.kwargs['resident_id']
+        if q != '*':
+            return Doctor.objects.filter(resident_id=q)
+        else:
+            return Doctor.objects.all()
+
+
+class ResidentViewSet(generics.ListCreateAPIView):
+    serializer_class = ResidentSerializer
+
+    def get_queryset(self):
+        q = self.kwargs['resident_id']
+        if q != '*':
+            return Resident.objects.filter(resident_id=q)
+        else:
+            return Resident.objects.all()
 
 
 def date_handler(obj):
