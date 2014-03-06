@@ -24,6 +24,9 @@ urlpatterns = format_suffix_patterns(patterns('',
                                               url(r'^user_auth/$', 'com_fsw_service.views.user_auth',
                                                   name='user login'),
 
+                                              url(r'^current_user/$', 'com_fsw_service.views.current_user',
+                                                  name='current user'),
+
                                               url(r'^logout/$', 'com_fsw_service.views.user_logout',
                                                   name='user logout'),
 
