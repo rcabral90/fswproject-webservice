@@ -1,4 +1,6 @@
 from django.contrib.auth.models import User
+from django.utils.decorators import method_decorator
+from django.views.decorators.csrf import csrf_exempt
 from rest_framework import generics
 import simplejson as json
 from django.http import HttpResponse
@@ -35,7 +37,7 @@ def api_root(request, format=None):
 
     })
 
-
+@method_decorator(csrf_exempt)
 def new_user(request):
     try:
         #adds a new user to the django database, note that - django database, not the fsw database!
@@ -57,7 +59,7 @@ def new_user(request):
     except Exception, e:
         return HttpResponse(json.dumps({'success': '0', 'error': str(e)}), content_type="application/json")
 
-
+@method_decorator(csrf_exempt)
 def user_auth(request):
     try:
         #GET is for testing only, change this stuff to POST when we make the login page!
@@ -81,7 +83,7 @@ def user_auth(request):
         return HttpResponse(json.dumps({'success': '0', 'error': 'Incorrect authentication process.'}),
                             content_type="application/json")
 
-
+@method_decorator(csrf_exempt)
 def user_logout(request):
     logout(request)
     #Note: logout() always returns a true value even if there were no credentials wiped, go figure.
