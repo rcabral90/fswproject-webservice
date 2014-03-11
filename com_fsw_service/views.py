@@ -20,6 +20,7 @@ def api_root(request, format=None):
 
         'user login': reverse('user login', request=request, format=format),
         'user logout': reverse('user logout', request=request, format=format),
+        'current user': reverse('current user', request=request, format=format),
         'new user': reverse('new user', request=request, format=format),
 
         'diets details': reverse('diets-details', request=request, format=format, args="*"),
@@ -63,14 +64,18 @@ def new_user(request):
 def user_auth(request):
     try:
         #GET is for testing only, change this stuff to POST when we make the login page!
-        username = request.GET['username']
-        password = request.GET['password']
+        username = request.POST['username']
+        password = request.POST['password']
+
         user = authenticate(username=username, password=password)
         if user is not None:
             if user.is_active:
                 login(request, user)
                 #success page
-                return HttpResponse(json.dumps({'success': '1'}), content_type="application/json")
+                return HttpResponse(
+                    json.dumps({'success': '1', 'username': user.username, 'first_name': user.first_name,
+                                'last_name': user.last_name}),
+                    content_type="application/json")
             else:
                 #nope.jpg
                 return HttpResponse(json.dumps({'success': '0', 'error': 'Username is banned.'}),
@@ -84,6 +89,15 @@ def user_auth(request):
                             content_type="application/json")
 
 @method_decorator(csrf_exempt)
+def current_user(request):
+    if request.user.is_active:
+        return HttpResponse(json.dumps({'first_name': request.user.first_name, 'last_name': request.user.last_name,
+                                        'username': request.user.username, 'email': request.user.email}),
+                            content_type="application/json")
+    else:
+        return HttpResponse(json.dumps({'success': '0', 'error': 'Username or password incorrect.'}),
+                            content_type="application/json")
+
 def user_logout(request):
     logout(request)
     #Note: logout() always returns a true value even if there were no credentials wiped, go figure.
