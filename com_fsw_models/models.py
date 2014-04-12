@@ -4,7 +4,7 @@ from django.db import models
 
 
 class AllergicMedication(models.Model):
-    allergic_med_id = models.IntegerField(primary_key=True)
+    allergic_med_id = models.AutoField(primary_key=True)
     resident_id = models.IntegerField()
     medication_name = models.CharField(max_length=70)
     allergic_diagnosis = models.TextField(blank=True)
@@ -22,7 +22,7 @@ class AllergicMedication(models.Model):
 
 
 class Allergy(models.Model):
-    allergy_id = models.IntegerField(primary_key=True)
+    allergy_id = models.AutoField(primary_key=True)
     resident_id = models.IntegerField()
     allergy_title = models.CharField(max_length=20)
     allergy_description = models.TextField()
@@ -40,7 +40,7 @@ class Allergy(models.Model):
 
 
 class Assessment(models.Model):
-    assessment_id = models.IntegerField(primary_key=True)
+    assessment_id = models.AutoField(primary_key=True)
     resident_id = models.IntegerField()
     assessment_date = models.DateField()
     assessment_time = models.TimeField()
@@ -64,7 +64,7 @@ class Assessment(models.Model):
 
 
 class AuthGroup(models.Model):
-    id = models.IntegerField(primary_key=True)
+    id = models.AutoField(primary_key=True)
     name = models.CharField(max_length=80, unique=True)
 
     class Meta:
@@ -126,7 +126,7 @@ class AuthUserUserPermissions(models.Model):
 
 
 class Diet(models.Model):
-    diet_id = models.IntegerField(primary_key=True)
+    diet_id = models.AutoField(primary_key=True)
     resident_id = models.IntegerField()
     diet_title = models.CharField(max_length=20)
     diet_description = models.TextField()
@@ -186,7 +186,7 @@ class DjangoSite(models.Model):
 
 
 class Doctor(models.Model):
-    doctor_id = models.IntegerField(primary_key=True)
+    doctor_id = models.AutoField(primary_key=True)
     first_name = models.CharField(max_length=50)
     middle_name = models.CharField(max_length=50, blank=True)
     last_name = models.CharField(max_length=50)
@@ -209,7 +209,7 @@ class Doctor(models.Model):
 
 class EmergencyContact(models.Model):
     resident_id = models.IntegerField()
-    em_id = models.IntegerField(primary_key=True)
+    em_id = models.AutoField(primary_key=True)
     first_name = models.CharField(max_length=50)
     middle_name = models.CharField(max_length=50, blank=True)
     last_name = models.CharField(max_length=50)
@@ -240,7 +240,7 @@ class EmergencyContact(models.Model):
 
 
 class Hospitalization(models.Model):
-    hospitalization_id = models.IntegerField(primary_key=True)
+    hospitalization_id = models.AutoField(primary_key=True)
     resident_id = models.IntegerField()
     hospitalization_date = models.DateField()
     hospitalization_location = models.CharField(max_length=70)
@@ -268,7 +268,7 @@ class Hospitalization(models.Model):
 
 
 class Medication(models.Model):
-    medication_id = models.IntegerField(primary_key=True)
+    medication_id = models.AutoField(primary_key=True)
     resident_id = models.IntegerField()
     medication_name = models.CharField(max_length=70)
     generic_name = models.CharField(max_length=70)
@@ -298,7 +298,7 @@ class Medication(models.Model):
 
 
 class MedicationHistory(models.Model):
-    medication_id = models.IntegerField(primary_key=True)
+    medication_id = models.AutoField(primary_key=True)
     resident_id = models.IntegerField()
     med_name = models.CharField(max_length=20)
     generic_name = models.CharField(max_length=15)
@@ -346,6 +346,7 @@ class Miscellaneous(models.Model):
 
 
 class Notes(models.Model):
+    id = models.AutoField(primary_key=True)
     resident_id = models.IntegerField()
     notes = models.TextField()
 
@@ -359,7 +360,7 @@ class Notes(models.Model):
         )
 
 class Physical(models.Model):
-    physical_id = models.IntegerField(primary_key=True)
+    physical_id = models.AutoField(primary_key=True)
     physical_date = models.DateField()
     resident_id = models.IntegerField()
 
@@ -398,7 +399,7 @@ class Prescription(models.Model):
 
 
 class Resident(models.Model):
-    resident_id = models.IntegerField(primary_key=True)
+    resident_id = models.AutoField(primary_key=True)
     first_name = models.CharField(max_length=50)
     middle_name = models.CharField(max_length=50, blank=True)
     last_name = models.CharField(max_length=50)

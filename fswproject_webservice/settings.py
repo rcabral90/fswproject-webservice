@@ -150,7 +150,7 @@ REST_FRAMEWORK = {
     ),
     'DEFAULT_FILTER_BACKENDS': ('rest_framework.filters.DjangoFilterBackend',),
     'DEFAULT_PERMISSION_CLASSES': ('rest_framework.permissions.AllowAny',),
-    'PAGINATE_BY': 10
+    'PAGINATE_BY': None
 }
 
 # A sample logging configuration. The only tangible logging
