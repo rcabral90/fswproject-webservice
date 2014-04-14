@@ -44,7 +44,7 @@ class Assessment(models.Model):
     resident_id = models.IntegerField()
     assessment_date = models.DateField()
     assessment_time = models.TimeField()
-    weight = models.TextField() # This field type is a guess.
+    weight = models.TextField()  # This field type is a guess.
     blood_pressure = models.CharField(max_length=10)
     assess_notes = models.TextField()
 
@@ -359,10 +359,13 @@ class Notes(models.Model):
             notes=self.notes
         )
 
+
 class Physical(models.Model):
     physical_id = models.AutoField(primary_key=True)
     physical_date = models.DateField()
     resident_id = models.IntegerField()
+    doctor_id = models.IntegerField()
+    notes = models.TextField()
 
     class Meta:
         db_table = 'physical'
@@ -370,7 +373,10 @@ class Physical(models.Model):
     def as_json(self):
         return dict(
             resident_id=self.resident_id,
-            physical_date=self.physical_date
+            physical_date=self.physical_date,
+            physical_id=self.physical_id,
+            doctor_id=self.doctor_id,
+            notes=self.notes
         )
 
 
@@ -411,6 +417,7 @@ class Resident(models.Model):
     home_phone = models.CharField(max_length=30)
     cell_phone = models.CharField(max_length=30, blank=True)
     date_of_birth = models.DateField()
+    photo = models.CharField(max_length=100, blank=True)
 
     class Meta:
         db_table = 'resident'
@@ -426,9 +433,11 @@ class Resident(models.Model):
             city=self.city,
             state=self.state,
             zip_code=self.zip_code,
-            home_phone=self.city,
-            cell_phone=self.state,
-            date_of_birth=self.zip_code
+            home_phone=self.home_phone,
+            cell_phone=self.cell_phone,
+            date_of_birth=self.date_of_birth,
+            photo=self.photo
+
         )
 
 

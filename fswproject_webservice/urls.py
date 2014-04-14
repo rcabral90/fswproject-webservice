@@ -63,11 +63,19 @@ urlpatterns = format_suffix_patterns(patterns('',
                                               url(r'^notes/(?P<resident_id>.+)/$', views.NotesViewSet.as_view(),
                                                   name='notes-details'),
 
-                                              url(r'^doctors/(?P<resident_id>.+)/$', views.DoctorsViewSet.as_view(),
+                                              url(r'^doctors/(?P<doctor_id>.+)/$', views.DoctorsViewSet.as_view(),
                                                   name='doctors-details'),
 
                                               url(r'^residents/(?P<resident_id>.+)/$', views.ResidentViewSet.as_view(),
                                                   name='residents-details'),
+
+                                              url(r'^residentstodoctor/(?P<resident_id>.+)/$',
+                                                  views.ResidentToDoctorViewSet.as_view(),
+                                                  name='residents-to-doctor-details'),
+
+                                              url(r'^physical/(?P<resident_id>.+)/$',
+                                                  views.PhysicalViewSet.as_view(),
+                                                  name='physical-details'),
 
                                               # Uncomment the admin/doc line below to enable admin documentation:
                                               url(r'^admin/doc/', include('django.contrib.admindocs.urls')),

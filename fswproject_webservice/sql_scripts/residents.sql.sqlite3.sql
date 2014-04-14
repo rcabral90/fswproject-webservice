@@ -309,6 +309,7 @@ INSERT INTO `miscellaneous` (`resident_id`, `misc_id`, `notes`) VALUES
 --
 
 CREATE TABLE IF NOT EXISTS `physical` (
+  `physical_id`   integer NOT NULL PRIMARY KEY AUTOINCREMENT,
   `physical_date` date NOT NULL,
   `resident_id` integer NOT NULL
 )       ;

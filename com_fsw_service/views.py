@@ -34,7 +34,8 @@ def api_root(request, format=None):
         'notes details': reverse('notes-details', request=request, format=format, args="*"),
         'doctors details': reverse('doctors-details', request=request, format=format, args="*"),
         'residents details': reverse('residents-details', request=request, format=format, args="*"),
-
+        'residents to doctor details': reverse('residents-to-doctor-details', request=request, format=format, args="*"),
+        'physical details': reverse('physical-details', request=request, format=format, args="*"),
 
     })
 
@@ -207,9 +208,9 @@ class DoctorsViewSet(generics.ListCreateAPIView):
     serializer_class = DoctorSerializer
 
     def get_queryset(self):
-        q = self.kwargs['resident_id']
+        q = self.kwargs['doctor_id']
         if q != '*':
-            return Doctor.objects.filter(resident_id=q)
+            return Doctor.objects.filter(doctor_id=q)
         else:
             return Doctor.objects.all()
 
@@ -223,6 +224,28 @@ class ResidentViewSet(generics.ListCreateAPIView):
             return Resident.objects.filter(resident_id=q)
         else:
             return Resident.objects.all()
+
+
+class ResidentToDoctorViewSet(generics.ListCreateAPIView):
+    serializer_class = ResidentToDoctorSerializer
+
+    def get_queryset(self):
+        q = self.kwargs['resident_id']
+        if q != '*':
+            return ResidentToDoctor.objects.filter(resident_id=q)
+        else:
+            return ResidentToDoctor.objects.all()
+
+
+class PhysicalViewSet(generics.ListCreateAPIView):
+    serializer_class = PhysicalSerializer
+
+    def get_queryset(self):
+        q = self.kwargs['resident_id']
+        if q != '*':
+            return Physical.objects.filter(resident_id=q)
+        else:
+            return Physical.objects.all()
 
 
 def date_handler(obj):

@@ -90,7 +90,7 @@ class PhysicalSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = Physical
         fields = (
-            'physical_id', 'physical_date', 'resident_id')
+            'physical_id', 'physical_date', 'resident_id', 'doctor_id', 'notes')
 
 
 class PrescriptionSerializer(serializers.HyperlinkedModelSerializer):
@@ -106,7 +106,7 @@ class ResidentSerializer(serializers.HyperlinkedModelSerializer):
         model = Resident
         fields = (
             'resident_id', 'first_name', 'middle_name', 'last_name',
-            'address1', 'address2', 'city', 'state', 'zip_code', 'home_phone', 'cell_phone', 'date_of_birth')
+            'address1', 'address2', 'city', 'state', 'zip_code', 'home_phone', 'cell_phone', 'date_of_birth', 'photo')
 
 
 class ResidentToDoctorSerializer(serializers.HyperlinkedModelSerializer):
