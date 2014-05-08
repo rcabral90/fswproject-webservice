@@ -77,6 +77,18 @@ urlpatterns = format_suffix_patterns(patterns('',
                                                   views.PhysicalViewSet.as_view(),
                                                   name='physical-details'),
 
+                                              url(r'^insurance/(?P<resident_id>.+)/$',
+                                                  views.InsuranceViewSet.as_view(),
+                                                  name='insurance-details'),
+
+                                              url(r'^documents/(?P<resident_id>.+)/$',
+                                                  views.DocumentStorageViewSet.as_view(),
+                                                  name='document-details'),
+
+                                              url(r'^alerts/(?P<resident_id>.+)/$',
+                                                  views.AlertsViewSet.as_view(),
+                                                  name='alert-details'),
+
                                               # Uncomment the admin/doc line below to enable admin documentation:
                                               url(r'^admin/doc/', include('django.contrib.admindocs.urls')),
                                               # Uncomment the next line to enable the admin:

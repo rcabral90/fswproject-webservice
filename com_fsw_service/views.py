@@ -36,6 +36,9 @@ def api_root(request, format=None):
         'residents details': reverse('residents-details', request=request, format=format, args="*"),
         'residents to doctor details': reverse('residents-to-doctor-details', request=request, format=format, args="*"),
         'physical details': reverse('physical-details', request=request, format=format, args="*"),
+        'insurance details': reverse('insurance-details', request=request, format=format, args="*"),
+        'alert details': reverse('alert-details', request=request, format=format, args="*"),
+        'document details': reverse('document-details', request=request, format=format, args="*"),
 
     })
 
@@ -246,6 +249,39 @@ class PhysicalViewSet(generics.ListCreateAPIView):
             return Physical.objects.filter(resident_id=q)
         else:
             return Physical.objects.all()
+
+
+class InsuranceViewSet(generics.ListCreateAPIView):
+    serializer_class = InsuranceSerializer
+
+    def get_queryset(self):
+        q = self.kwargs['resident_id']
+        if q != '*':
+            return Insurance.objects.filter(resident_id=q)
+        else:
+            return Insurance.objects.all()
+
+
+class DocumentStorageViewSet(generics.ListCreateAPIView):
+    serializer_class = DocumentStorageSerializer
+
+    def get_queryset(self):
+        q = self.kwargs['resident_id']
+        if q != '*':
+            return DocumentStorage.objects.filter(resident_id=q)
+        else:
+            return DocumentStorage.objects.all()
+
+
+class AlertsViewSet(generics.ListCreateAPIView):
+    serializer_class = AlertsSerializer
+
+    def get_queryset(self):
+        q = self.kwargs['resident_id']
+        if q != '*':
+            return Alerts.objects.filter(resident_id=q)
+        else:
+            return Alerts.objects.all()
 
 
 def date_handler(obj):

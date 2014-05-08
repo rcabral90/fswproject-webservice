@@ -418,6 +418,8 @@ class Resident(models.Model):
     cell_phone = models.CharField(max_length=30, blank=True)
     date_of_birth = models.DateField()
     photo = models.CharField(max_length=100, blank=True)
+    flu_shot = models.DateField()
+    dnr = models.BooleanField()
 
     class Meta:
         db_table = 'resident'
@@ -436,7 +438,8 @@ class Resident(models.Model):
             home_phone=self.home_phone,
             cell_phone=self.cell_phone,
             date_of_birth=self.date_of_birth,
-            photo=self.photo
+            photo=self.photo,
+            flu_shot=self.flu_shot
 
         )
 
@@ -452,4 +455,67 @@ class ResidentToDoctor(models.Model):
         return dict(
             resident_id=self.resident_id,
             doctor_id=self.doctor_id
+        )
+
+
+class Insurance(models.Model):
+    insurance_id = models.AutoField(primary_key=True)
+    resident_id = models.IntegerField()
+    policy_number = models.CharField(max_length=50)
+    phone_number = models.IntegerField()
+    company = models.CharField(max_length=255)
+    purpose = models.CharField(max_length=255)
+
+    class Meta:
+        db_table = 'insurance'
+
+    def as_json(self):
+        return dict(
+            insurance_id=self.insurance_id,
+            resident_id=self.resident_id,
+            policy_number=self.policy_number,
+            phone_number=self.phone_number,
+            company=self.company,
+            purpose=self.purpose
+
+        )
+
+
+class DocumentStorage(models.Model):
+    document_id = models.AutoField(primary_key=True)
+    resident_id = models.IntegerField()
+    document_path = models.CharField(max_length=255)
+
+    class Meta:
+        db_table = 'document_storage'
+
+    def as_json(self):
+        return dict(
+            document_id=self.document_id,
+            resident_id=self.resident_id,
+            document_path=self.document_path
+
+        )
+
+
+class Alerts(models.Model):
+    alert_id = models.AutoField(primary_key=True)
+    resident_id = models.IntegerField()
+    username = models.CharField(max_length=255)
+    general_text = models.TextField()
+    flag = models.IntegerField()
+    date_time_modified = models.DateTimeField()
+
+    class Meta:
+        db_table = 'alerts'
+
+    def as_json(self):
+        return dict(
+            alert_id=self.alert_id,
+            resident_id=self.resident_id,
+            username=self.username,
+            general_text=self.general_text,
+            flag=self.flag,
+            date_time_modified=self.date_time_modified
+
         )

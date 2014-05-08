@@ -1,6 +1,8 @@
 from rest_framework import serializers
 
-from com_fsw_models.models import Diet, AuthUser, AllergicMedication, Allergy, Assessment, MedicationHistory, Miscellaneous, Hospitalization, Medication, Doctor, EmergencyContact, Physical, Prescription, Resident, ResidentToDoctor, Notes
+from com_fsw_models.models import Diet, AuthUser, AllergicMedication, Allergy, Assessment, MedicationHistory, \
+    Miscellaneous, Hospitalization, Medication, Doctor, EmergencyContact, Physical, Prescription, Resident, \
+    ResidentToDoctor, Notes, Insurance, DocumentStorage, Alerts
 
 
 class UserSerializer(serializers.ModelSerializer):
@@ -106,10 +108,29 @@ class ResidentSerializer(serializers.HyperlinkedModelSerializer):
         model = Resident
         fields = (
             'resident_id', 'first_name', 'middle_name', 'last_name',
-            'address1', 'address2', 'city', 'state', 'zip_code', 'home_phone', 'cell_phone', 'date_of_birth', 'photo')
+            'address1', 'address2', 'city', 'state', 'zip_code', 'home_phone', 'cell_phone', 'date_of_birth', 'photo',
+            'flu_shot', 'dnr')
 
 
 class ResidentToDoctorSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = ResidentToDoctor
         fields = ('resident_id', 'doctor_id')
+
+
+class InsuranceSerializer(serializers.HyperlinkedModelSerializer):
+    class Meta:
+        model = Insurance
+        fields = ('insurance_id', 'resident_id', 'policy_number', 'phone_number', 'company', 'purpose')
+
+
+class DocumentStorageSerializer(serializers.HyperlinkedModelSerializer):
+    class Meta:
+        model = DocumentStorage
+        fields = ('document_id', 'resident_id', 'document_path')
+
+
+class AlertsSerializer(serializers.HyperlinkedModelSerializer):
+    class Meta:
+        model = Alerts
+        fields = ('alert_id', 'resident_id', 'username', 'general_text', 'flag', 'date_time_modified')
