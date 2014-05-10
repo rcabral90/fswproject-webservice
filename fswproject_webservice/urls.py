@@ -30,6 +30,9 @@ urlpatterns = format_suffix_patterns(patterns('',
                                               url(r'^logout/$', 'com_fsw_service.views.user_logout',
                                                   name='user logout'),
 
+                                              url(r'^delete/$', 'com_fsw_service.views.delete',
+                                                  name='delete entry'),
+
                                               url(r'^diets/(?P<resident_id>.+)/$', views.DietViewSet.as_view(),
                                                   name='diets-details'),
 

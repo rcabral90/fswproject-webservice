@@ -107,6 +107,172 @@ def user_logout(request):
     #Note: logout() always returns a true value even if there were no credentials wiped, go figure.
     return HttpResponse(json.dumps({'success': '1'}), content_type="application/json")
 
+@method_decorator(csrf_exempt)
+def delete(request):
+    if (request.method == "POST"):
+        #get the variables
+        res_id = request.POST['resident_id']
+        row_id = request.POST['row_id']
+        user_id = request.POST['user_id']
+        date_time = request.POST['date_time']
+        delete_message = request.POST['delete_message']
+        type = request.POST['type']
+        #type def:
+        #0 = resident
+        #1 = medication
+        #2 = medication_history
+        #3 = assessment
+        #4 = insurance
+        #5 = doctor (note resident_id == doctor_id)
+        #6 = prescription
+        #7 = hospitalization
+        #8 = emergency_contact
+        #9 = alert
+        #10 = physical
+        #11 = note
+        #12 = diet
+        #13 = allergies
+        if(type):
+            if(type == "0"):
+                #delete the resident
+                try:
+                    Resident.objects.filter(resident_id=res_id).delete()
+                    #delete all links to this resident
+                    #delete all resident_to_doctor links
+                    return HttpResponse(json.dumps({'success': '1'}), content_type="application/json")
+                except:
+                    return HttpResponse(json.dumps({'success': '0'}), content_type="application/json")
+            if(type == "1"):
+                #delete the medication
+                try:
+                    #we only care about the row_id which equals the medication_id
+                    Medication.objects.filter(medication_id=row_id).delete()
+                    #create a new alert
+                    new_alert = Alerts(resident_id = res_id,username = user_id,general_text = delete_message,flag = 0,date_time_modified = date_time)
+                    new_alert.save()
+                    return HttpResponse(json.dumps({'success': '1'}), content_type="application/json")
+                except:
+                    return HttpResponse(json.dumps({'success': '0'}), content_type="application/json")
+            if(type == "2"):
+                #delete the medication history
+                try:
+                    #we only care about the row_id which equals the medication_id
+                    MedicationHistory.objects.filter(medication_id=row_id).delete()
+                    #create a new alert
+                    new_alert = Alerts(resident_id = res_id,username = user_id,general_text = delete_message,flag = 0,date_time_modified = date_time)
+                    new_alert.save()
+                    return HttpResponse(json.dumps({'success': '1'}), content_type="application/json")
+                except:
+                    return HttpResponse(json.dumps({'success': '0'}), content_type="application/json")
+            if(type == "3"):
+                #delete the assessment
+                try:
+                    #we only care about the row_id which equals the assessment_id
+                    Assessment.objects.filter(assessment_id=row_id).delete()
+                    #create a new alert
+                    new_alert = Alerts(resident_id = res_id,username = user_id,general_text = delete_message,flag = 0,date_time_modified = date_time)
+                    new_alert.save()
+                    return HttpResponse(json.dumps({'success': '1'}), content_type="application/json")
+                except:
+                    return HttpResponse(json.dumps({'success': '0'}), content_type="application/json")
+            if(type == "4"):
+                #delete the insurance
+                try:
+                    #we only care about the row_id which equals the insurance_id
+                    Insurance.objects.filter(insurance_id=row_id).delete()
+                    #create a new alert
+                    new_alert = Alerts(resident_id = res_id,username = user_id,general_text = delete_message,flag = 0,date_time_modified = date_time)
+                    new_alert.save()
+                    return HttpResponse(json.dumps({'success': '1'}), content_type="application/json")
+                except:
+                    return HttpResponse(json.dumps({'success': '0'}), content_type="application/json")
+            if(type == "5"):
+                #delete the doctor (before he regenerates!)
+                try:
+                    #res_id = doctor_id
+                    Doctor.objects.filter(doctor_id=res_id).delete()
+                    #delete all resident_to_doctor links
+                    return HttpResponse(json.dumps({'success': '1'}), content_type="application/json")
+                except:
+                    return HttpResponse(json.dumps({'success': '0'}), content_type="application/json")
+            if(type == "6"):
+                #delete the prescription
+                try:
+                    #we only care about the row_id which equals the prescription_number
+                    Prescription.objects.filter(prescription_number=row_id).delete()
+                    #create a new alert
+                    new_alert = Alerts(resident_id = res_id,username = user_id,general_text = delete_message,flag = 0,date_time_modified = date_time)
+                    new_alert.save()
+                    return HttpResponse(json.dumps({'success': '1'}), content_type="application/json")
+                except:
+                    return HttpResponse(json.dumps({'success': '0'}), content_type="application/json")
+            if(type == "7"):
+                #delete the hospitalization
+                try:
+                    #we only care about the row_id which equals the hospitalization_id
+                    Hospitalization.objects.filter(hospitalization_id=row_id).delete()
+                    #create a new alert
+                    new_alert = Alerts(resident_id = res_id,username = user_id,general_text = delete_message,flag = 0,date_time_modified = date_time)
+                    new_alert.save()
+                    return HttpResponse(json.dumps({'success': '1'}), content_type="application/json")
+                except:
+                    return HttpResponse(json.dumps({'success': '0'}), content_type="application/json")
+            if(type == "8"):
+                #delete the emergency contact
+                try:
+                    #we only care about the row_id which equals the em_id
+                    EmergencyContact.objects.filter(em_id=row_id).delete()
+                    #create a new alert
+                    new_alert = Alerts(resident_id = res_id,username = user_id,general_text = delete_message,flag = 0,date_time_modified = date_time)
+                    new_alert.save()
+                    return HttpResponse(json.dumps({'success': '1'}), content_type="application/json")
+                except:
+                    return HttpResponse(json.dumps({'success': '0'}), content_type="application/json")
+            if(type == "9"):
+                #You cannot actually delete an alert, but this will update it's flag to 1
+                try:
+                    #we only care about the row_id which equals the alert_id
+                    Alerts.objects.filter(alert_id=row_id).update(flag=1)
+                    return HttpResponse(json.dumps({'success': '1'}), content_type="application/json")
+                except:
+                    return HttpResponse(json.dumps({'success': '0'}), content_type="application/json")
+            if(type == "10"):
+                #delete the physical information
+                try:
+                    #we only care about the row_id which equals the physical_id
+                    Physical.objects.filter(physical_id=row_id).delete()
+                    #create a new alert
+                    new_alert = Alerts(resident_id = res_id,username = user_id,general_text = delete_message,flag = 0,date_time_modified = date_time)
+                    new_alert.save()
+                    return HttpResponse(json.dumps({'success': '1'}), content_type="application/json")
+                except:
+                    return HttpResponse(json.dumps({'success': '0'}), content_type="application/json")
+            #if(type == "11"):
+                #notes don't have an ID number
+            if(type == "12"):
+                #delete the diet
+                try:
+                    #we only care about the row_id which equals the diet_id
+                    Diet.objects.filter(diet_id=row_id).delete()
+                    #create a new alert
+                    new_alert = Alerts(resident_id = res_id,username = user_id,general_text = delete_message,flag = 0,date_time_modified = date_time)
+                    new_alert.save()
+                    return HttpResponse(json.dumps({'success': '1'}), content_type="application/json")
+                except:
+                    return HttpResponse(json.dumps({'success': '0'}), content_type="application/json")
+            if(type == "13"):
+                #delete the allergy
+                try:
+                    #we only care about the row_id which equals the allergy_id
+                    Allergy.objects.filter(allergy_id=row_id).delete()
+                    #create a new alert
+                    new_alert = Alerts(resident_id = res_id,username = user_id,general_text = delete_message,flag = 0,date_time_modified = date_time)
+                    new_alert.save()
+                    return HttpResponse(json.dumps({'success': '1'}), content_type="application/json")
+                except:
+                    return HttpResponse(json.dumps({'success': '0'}), content_type="application/json")
+    if (request.method == "GET"):
+        return HttpResponse(json.dumps({'success': '0'}), content_type="application/json")
 
 class DietViewSet(generics.ListCreateAPIView):
     serializer_class = DietSerializer

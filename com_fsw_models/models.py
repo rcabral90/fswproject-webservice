@@ -462,7 +462,7 @@ class Insurance(models.Model):
     insurance_id = models.AutoField(primary_key=True)
     resident_id = models.IntegerField()
     policy_number = models.CharField(max_length=50)
-    phone_number = models.IntegerField()
+    phone_number = models.CharField(max_length=20)
     company = models.CharField(max_length=255)
     purpose = models.CharField(max_length=255)
 
