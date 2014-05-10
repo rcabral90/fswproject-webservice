@@ -11,6 +11,7 @@ from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from rest_framework.reverse import reverse
 
+
 from com_fsw_models.serializers import *
 
 
@@ -39,6 +40,7 @@ def api_root(request, format=None):
         'insurance details': reverse('insurance-details', request=request, format=format, args="*"),
         'alert details': reverse('alert-details', request=request, format=format, args="*"),
         'document details': reverse('document-details', request=request, format=format, args="*"),
+        'subscriptions details': reverse('subscriptions-details', request=request, format=format, args="*"),
 
     })
 
@@ -78,7 +80,7 @@ def user_auth(request):
                 #success page
                 return HttpResponse(
                     json.dumps({'success': '1', 'username': user.username, 'first_name': user.first_name,
-                                'last_name': user.last_name}),
+                                'last_name': user.last_name, 'last_login': user.last_login}, default=date_handler),
                     content_type="application/json")
             else:
                 #nope.jpg
@@ -96,7 +98,7 @@ def user_auth(request):
 def current_user(request):
     if request.user.is_active:
         return HttpResponse(json.dumps({'first_name': request.user.first_name, 'last_name': request.user.last_name,
-                                        'username': request.user.username, 'email': request.user.email}),
+                                        'username': request.user.username, 'email': request.user.email, 'last_login': request.user.last_login}, default=date_handler),
                             content_type="application/json")
     else:
         return HttpResponse(json.dumps({'success': '0', 'error': 'Username or password incorrect.'}),
@@ -282,6 +284,17 @@ class AlertsViewSet(generics.ListCreateAPIView):
             return Alerts.objects.filter(resident_id=q)
         else:
             return Alerts.objects.all()
+
+
+class SubscriptionViewSet(generics.ListCreateAPIView):
+    serializer_class = SubscriptionsSerializer
+
+    def get_queryset(self):
+        q = self.kwargs['username']
+        if q != '*':
+            return Subscriptions.objects.filter(username=q)
+        else:
+            return Subscriptions.objects.all()
 
 
 def date_handler(obj):

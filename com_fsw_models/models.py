@@ -519,3 +519,19 @@ class Alerts(models.Model):
             date_time_modified=self.date_time_modified
 
         )
+
+
+class Subscriptions(models.Model):
+    subscription_id = models.AutoField(primary_key=True)
+    username = models.CharField(max_length=255)
+    resident_id = models.IntegerField()
+
+    class Meta:
+        db_table = 'subscriptions'
+
+    def as_json(self):
+        return dict(
+            subscription_id=self.subscription_id,
+            username=self.username,
+            resident_id=self.resident_id
+        )

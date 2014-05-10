@@ -89,6 +89,10 @@ urlpatterns = format_suffix_patterns(patterns('',
                                                   views.AlertsViewSet.as_view(),
                                                   name='alert-details'),
 
+                                              url(r'^subscriptions/(?P<username>.+)/$',
+                                                  views.SubscriptionViewSet.as_view(),
+                                                  name='subscriptions-details'),
+
                                               # Uncomment the admin/doc line below to enable admin documentation:
                                               url(r'^admin/doc/', include('django.contrib.admindocs.urls')),
                                               # Uncomment the next line to enable the admin:

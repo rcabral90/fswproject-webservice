@@ -2,7 +2,7 @@ from rest_framework import serializers
 
 from com_fsw_models.models import Diet, AuthUser, AllergicMedication, Allergy, Assessment, MedicationHistory, \
     Miscellaneous, Hospitalization, Medication, Doctor, EmergencyContact, Physical, Prescription, Resident, \
-    ResidentToDoctor, Notes, Insurance, DocumentStorage, Alerts
+    ResidentToDoctor, Notes, Insurance, DocumentStorage, Alerts, Subscriptions
 
 
 class UserSerializer(serializers.ModelSerializer):
@@ -134,3 +134,10 @@ class AlertsSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = Alerts
         fields = ('alert_id', 'resident_id', 'username', 'general_text', 'flag', 'date_time_modified')
+
+
+class SubscriptionsSerializer(serializers.HyperlinkedModelSerializer):
+    class Meta:
+        model = Subscriptions
+        fields = ('subscription_id','username','resident_id')
+
