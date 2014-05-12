@@ -33,6 +33,9 @@ urlpatterns = format_suffix_patterns(patterns('',
                                               url(r'^delete/$', 'com_fsw_service.views.delete',
                                                   name='delete entry'),
 
+                                              url(r'^edit/$', 'com_fsw_service.views.edit',
+                                                  name='edit entry'),
+
                                               url(r'^diets/(?P<resident_id>.+)/$', views.DietViewSet.as_view(),
                                                   name='diets-details'),
 

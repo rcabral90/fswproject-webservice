@@ -110,6 +110,50 @@ def user_logout(request):
     return HttpResponse(json.dumps({'success': '1'}), content_type="application/json")
 
 @method_decorator(csrf_exempt)
+def edit(request):
+    if (request.method == "POST"):
+        #get the variables
+        res_id = request.POST['resident_id']
+        row_id = request.POST['row_id']
+        user_id = request.POST['user_id']
+        date_time = request.POST['date_time']
+        edit_message = request.POST['edit_message']
+        type = request.POST['type']
+        #type def:
+        #0 = resident
+        #5 = doctor (note resident_id == doctor_id)
+        if(type):
+            if(type == "0"):
+                #edit the resident
+                try:
+                    #update the resident based on post vars
+                    resident = Resident.objects.get(resident_id=res_id)
+                    resident.first_name = request.POST['first_name']
+                    resident.middle_name = request.POST['middle_name']
+                    resident.last_name = request.POST['last_name']
+                    resident.address1 = request.POST['address1']
+                    resident.address2 = request.POST['address2']
+                    resident.city = request.POST['city']
+                    resident.state = request.POST['state']
+                    resident.zip_code = request.POST['zip_code']
+                    resident.home_phone = request.POST['home_phone']
+                    resident.cell_phone = request.POST['cell_phone']
+                    resident.date_of_birth = request.POST['date_of_birth']
+                    resident.photo = request.POST['photo']
+                    resident.flu_shot = request.POST['flu_shot']
+                    resident.dnr = request.POST['dnr']
+                    #save it
+                    resident.save()
+                    #create a new alert
+                    new_alert = Alerts(resident_id = res_id,username = user_id,general_text = edit_message,flag = 0,date_time_modified = date_time)
+                    new_alert.save()
+                    return HttpResponse(json.dumps({'success': '1'}), content_type="application/json")
+                except:
+                    return HttpResponse(json.dumps({'success': '0'}), content_type="application/json")
+    if (request.method == "GET"):
+        return HttpResponse(json.dumps({'success': '0'}), content_type="application/json")
+
+@method_decorator(csrf_exempt)
 def delete(request):
     if (request.method == "POST"):
         #get the variables
