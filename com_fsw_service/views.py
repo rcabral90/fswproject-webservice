@@ -178,6 +178,7 @@ def delete(request):
         #11 = note
         #12 = diet
         #13 = allergies
+		#14 = unlink doctor to resident
         if(type):
             if(type == "0"):
                 #delete the resident
@@ -311,6 +312,16 @@ def delete(request):
                 try:
                     #we only care about the row_id which equals the allergy_id
                     Allergy.objects.filter(allergy_id=row_id).delete()
+                    #create a new alert
+                    new_alert = Alerts(resident_id = res_id,username = user_id,general_text = delete_message,flag = 0,date_time_modified = date_time)
+                    new_alert.save()
+                    return HttpResponse(json.dumps({'success': '1'}), content_type="application/json")
+                except:
+                    return HttpResponse(json.dumps({'success': '0'}), content_type="application/json")
+            if(type == "14"):
+                #Unlink a doctor from a resident
+                try:
+                    ResidentToDoctor.objects.filter(resident_id=res_id,doctor_id=row_id).delete()
                     #create a new alert
                     new_alert = Alerts(resident_id = res_id,username = user_id,general_text = delete_message,flag = 0,date_time_modified = date_time)
                     new_alert.save()
