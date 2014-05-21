@@ -150,6 +150,25 @@ def edit(request):
                     return HttpResponse(json.dumps({'success': '1'}), content_type="application/json")
                 except:
                     return HttpResponse(json.dumps({'success': '0'}), content_type="application/json")
+            if(type == "5"):
+                #edit the resident
+                try:
+                    #update the resident based on post vars
+                    #doctor_id = row_id from form!
+                    doctor = Doctor.objects.get(doctor_id=row_id)
+                    doctor.first_name = request.POST['first_name']
+                    doctor.middle_name = request.POST['middle_name']
+                    doctor.last_name = request.POST['last_name']
+                    doctor.specialization = request.POST['specialization']
+                    doctor.phone_number = request.POST['phone_number']
+                    #save it
+                    doctor.save()
+                    #create a new alert
+                    new_alert = Alerts(resident_id = res_id,username = user_id,general_text = edit_message,flag = 0,date_time_modified = date_time)
+                    new_alert.save()
+                    return HttpResponse(json.dumps({'success': '1'}), content_type="application/json")
+                except:
+                    return HttpResponse(json.dumps({'success': '0'}), content_type="application/json")
     if (request.method == "GET"):
         return HttpResponse(json.dumps({'success': '0'}), content_type="application/json")
 
@@ -239,6 +258,7 @@ def delete(request):
                     #res_id = doctor_id
                     Doctor.objects.filter(doctor_id=res_id).delete()
                     #delete all resident_to_doctor links
+                    ResidentToDoctor.objects.filter(doctor_id=res_id).delete()
                     return HttpResponse(json.dumps({'success': '1'}), content_type="application/json")
                 except:
                     return HttpResponse(json.dumps({'success': '0'}), content_type="application/json")
