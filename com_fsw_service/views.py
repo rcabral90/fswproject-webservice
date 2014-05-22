@@ -145,7 +145,7 @@ def edit(request):
                     #save it
                     resident.save()
                     #create a new alert
-                    new_alert = Alerts(resident_id = res_id,username = user_id,general_text = edit_message,flag = 0,date_time_modified = date_time)
+                    new_alert = Alerts(resident_id = res_id,username = user_id,general_text = edit_message,flag = 0,date_time_modified = date_time, type = 1)
                     new_alert.save()
                     return HttpResponse(json.dumps({'success': '1'}), content_type="application/json")
                 except:
@@ -164,7 +164,7 @@ def edit(request):
                     #save it
                     doctor.save()
                     #create a new alert
-                    new_alert = Alerts(resident_id = res_id,username = user_id,general_text = edit_message,flag = 0,date_time_modified = date_time)
+                    new_alert = Alerts(resident_id = res_id,username = user_id,general_text = edit_message,flag = 0,date_time_modified = date_time, type = 1)
                     new_alert.save()
                     return HttpResponse(json.dumps({'success': '1'}), content_type="application/json")
                 except:
@@ -214,7 +214,7 @@ def delete(request):
                     #we only care about the row_id which equals the medication_id
                     Medication.objects.filter(medication_id=row_id).delete()
                     #create a new alert
-                    new_alert = Alerts(resident_id = res_id,username = user_id,general_text = delete_message,flag = 0,date_time_modified = date_time)
+                    new_alert = Alerts(resident_id = res_id,username = user_id,general_text = delete_message,flag = 0,date_time_modified = date_time, type = 1)
                     new_alert.save()
                     return HttpResponse(json.dumps({'success': '1'}), content_type="application/json")
                 except:
@@ -225,7 +225,7 @@ def delete(request):
                     #we only care about the row_id which equals the medication_id
                     MedicationHistory.objects.filter(medication_id=row_id).delete()
                     #create a new alert
-                    new_alert = Alerts(resident_id = res_id,username = user_id,general_text = delete_message,flag = 0,date_time_modified = date_time)
+                    new_alert = Alerts(resident_id = res_id,username = user_id,general_text = delete_message,flag = 0,date_time_modified = date_time, type = 1)
                     new_alert.save()
                     return HttpResponse(json.dumps({'success': '1'}), content_type="application/json")
                 except:
@@ -236,7 +236,7 @@ def delete(request):
                     #we only care about the row_id which equals the assessment_id
                     Assessment.objects.filter(assessment_id=row_id).delete()
                     #create a new alert
-                    new_alert = Alerts(resident_id = res_id,username = user_id,general_text = delete_message,flag = 0,date_time_modified = date_time)
+                    new_alert = Alerts(resident_id = res_id,username = user_id,general_text = delete_message,flag = 0,date_time_modified = date_time, type = 1)
                     new_alert.save()
                     return HttpResponse(json.dumps({'success': '1'}), content_type="application/json")
                 except:
@@ -247,7 +247,7 @@ def delete(request):
                     #we only care about the row_id which equals the insurance_id
                     Insurance.objects.filter(insurance_id=row_id).delete()
                     #create a new alert
-                    new_alert = Alerts(resident_id = res_id,username = user_id,general_text = delete_message,flag = 0,date_time_modified = date_time)
+                    new_alert = Alerts(resident_id = res_id,username = user_id,general_text = delete_message,flag = 0,date_time_modified = date_time, type = 1)
                     new_alert.save()
                     return HttpResponse(json.dumps({'success': '1'}), content_type="application/json")
                 except:
@@ -268,7 +268,7 @@ def delete(request):
                     #we only care about the row_id which equals the prescription_number
                     Prescription.objects.filter(prescription_number=row_id).delete()
                     #create a new alert
-                    new_alert = Alerts(resident_id = res_id,username = user_id,general_text = delete_message,flag = 0,date_time_modified = date_time)
+                    new_alert = Alerts(resident_id = res_id,username = user_id,general_text = delete_message,flag = 0,date_time_modified = date_time, type = 1)
                     new_alert.save()
                     return HttpResponse(json.dumps({'success': '1'}), content_type="application/json")
                 except:
@@ -279,7 +279,7 @@ def delete(request):
                     #we only care about the row_id which equals the hospitalization_id
                     Hospitalization.objects.filter(hospitalization_id=row_id).delete()
                     #create a new alert
-                    new_alert = Alerts(resident_id = res_id,username = user_id,general_text = delete_message,flag = 0,date_time_modified = date_time)
+                    new_alert = Alerts(resident_id = res_id,username = user_id,general_text = delete_message,flag = 0,date_time_modified = date_time, type = 1)
                     new_alert.save()
                     return HttpResponse(json.dumps({'success': '1'}), content_type="application/json")
                 except:
@@ -290,7 +290,7 @@ def delete(request):
                     #we only care about the row_id which equals the em_id
                     EmergencyContact.objects.filter(em_id=row_id).delete()
                     #create a new alert
-                    new_alert = Alerts(resident_id = res_id,username = user_id,general_text = delete_message,flag = 0,date_time_modified = date_time)
+                    new_alert = Alerts(resident_id = res_id,username = user_id,general_text = delete_message,flag = 0,date_time_modified = date_time, type = 1)
                     new_alert.save()
                     return HttpResponse(json.dumps({'success': '1'}), content_type="application/json")
                 except:
@@ -309,7 +309,7 @@ def delete(request):
                     #we only care about the row_id which equals the physical_id
                     Physical.objects.filter(physical_id=row_id).delete()
                     #create a new alert
-                    new_alert = Alerts(resident_id = res_id,username = user_id,general_text = delete_message,flag = 0,date_time_modified = date_time)
+                    new_alert = Alerts(resident_id = res_id,username = user_id,general_text = delete_message,flag = 0,date_time_modified = date_time, type = 1)
                     new_alert.save()
                     return HttpResponse(json.dumps({'success': '1'}), content_type="application/json")
                 except:
@@ -322,7 +322,7 @@ def delete(request):
                     #we only care about the row_id which equals the diet_id
                     Diet.objects.filter(diet_id=row_id).delete()
                     #create a new alert
-                    new_alert = Alerts(resident_id = res_id,username = user_id,general_text = delete_message,flag = 0,date_time_modified = date_time)
+                    new_alert = Alerts(resident_id = res_id,username = user_id,general_text = delete_message,flag = 0,date_time_modified = date_time, type = 1)
                     new_alert.save()
                     return HttpResponse(json.dumps({'success': '1'}), content_type="application/json")
                 except:
@@ -333,7 +333,7 @@ def delete(request):
                     #we only care about the row_id which equals the allergy_id
                     Allergy.objects.filter(allergy_id=row_id).delete()
                     #create a new alert
-                    new_alert = Alerts(resident_id = res_id,username = user_id,general_text = delete_message,flag = 0,date_time_modified = date_time)
+                    new_alert = Alerts(resident_id = res_id,username = user_id,general_text = delete_message,flag = 0,date_time_modified = date_time, type = 1)
                     new_alert.save()
                     return HttpResponse(json.dumps({'success': '1'}), content_type="application/json")
                 except:
@@ -343,7 +343,7 @@ def delete(request):
                 try:
                     ResidentToDoctor.objects.filter(resident_id=res_id,doctor_id=row_id).delete()
                     #create a new alert
-                    new_alert = Alerts(resident_id = res_id,username = user_id,general_text = delete_message,flag = 0,date_time_modified = date_time)
+                    new_alert = Alerts(resident_id = res_id,username = user_id,general_text = delete_message,flag = 0,date_time_modified = date_time, type = 1)
                     new_alert.save()
                     return HttpResponse(json.dumps({'success': '1'}), content_type="application/json")
                 except:
