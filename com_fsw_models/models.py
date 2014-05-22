@@ -445,7 +445,8 @@ class Resident(models.Model):
 
 
 class ResidentToDoctor(models.Model):
-    resident_id = models.IntegerField(primary_key=True)
+    rd_id = models.IntegerField(primary_key=True)
+    resident_id = models.IntegerField()
     doctor_id = models.IntegerField()
 
     class Meta:
@@ -453,6 +454,7 @@ class ResidentToDoctor(models.Model):
 
     def as_json(self):
         return dict(
+            rd_id=self.rd_id,
             resident_id=self.resident_id,
             doctor_id=self.doctor_id
         )
@@ -505,6 +507,7 @@ class Alerts(models.Model):
     general_text = models.TextField()
     flag = models.IntegerField()
     date_time_modified = models.DateTimeField()
+    type = models.IntegerField()
 
     class Meta:
         db_table = 'alerts'
@@ -516,7 +519,8 @@ class Alerts(models.Model):
             username=self.username,
             general_text=self.general_text,
             flag=self.flag,
-            date_time_modified=self.date_time_modified
+            date_time_modified=self.date_time_modified,
+            type=self.type
 
         )
 

@@ -115,7 +115,7 @@ class ResidentSerializer(serializers.HyperlinkedModelSerializer):
 class ResidentToDoctorSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = ResidentToDoctor
-        fields = ('resident_id', 'doctor_id')
+        fields = ('rd_id', 'resident_id', 'doctor_id')
 
 
 class InsuranceSerializer(serializers.HyperlinkedModelSerializer):
@@ -133,11 +133,11 @@ class DocumentStorageSerializer(serializers.HyperlinkedModelSerializer):
 class AlertsSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = Alerts
-        fields = ('alert_id', 'resident_id', 'username', 'general_text', 'flag', 'date_time_modified')
+        fields = ('alert_id', 'resident_id', 'username', 'general_text', 'flag', 'date_time_modified', 'type')
 
 
 class SubscriptionsSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = Subscriptions
-        fields = ('subscription_id','username','resident_id')
+        fields = ('subscription_id', 'username', 'resident_id')
 
