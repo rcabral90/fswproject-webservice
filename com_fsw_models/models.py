@@ -445,7 +445,7 @@ class Resident(models.Model):
 
 
 class ResidentToDoctor(models.Model):
-    rd_id = models.IntegerField(primary_key=True)
+    rd_id = models.AutoField(primary_key=True)
     resident_id = models.IntegerField()
     doctor_id = models.IntegerField()
 
