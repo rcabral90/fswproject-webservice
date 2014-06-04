@@ -147,8 +147,14 @@ def edit(request):
                     resident.cell_phone = request.POST['cell_phone']
                     resident.date_of_birth = request.POST['date_of_birth']
                     resident.photo = request.POST['photo']
-                    resident.flu_shot = request.POST['flu_shot']
-                    resident.dnr = request.POST['dnr']
+                    if(request.POST['flu_shot'] == "null"):
+                         resident.flu_shot = None
+                    else:
+                         resident.flu_shot = request.POST['flu_shot']
+                    if(request.POST['dnr'] == "0"):
+                         resident.dnr = False
+                    else:
+                         resident.dnr = True
                     #save it
                     resident.save()
                     #create a new alert
