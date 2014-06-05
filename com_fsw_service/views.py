@@ -214,6 +214,7 @@ def delete(request):
         #12 = diet
         #13 = allergies
         #14 = unlink doctor to resident
+        #15 = subscription
         if (type):
             if (type == "0"):
                 #delete the resident
@@ -372,6 +373,14 @@ def delete(request):
                     new_alert = Alerts(resident_id=res_id, username=user_id, general_text=delete_message, flag=0,
                                        date_time_modified=date_time, type=1)
                     new_alert.save()
+                    return HttpResponse(json.dumps({'success': '1'}), content_type="application/json")
+                except:
+                    return HttpResponse(json.dumps({'success': '0'}), content_type="application/json")
+            if (type == "15"):
+                #Delete a subscription
+                try:
+                    Subscriptions.objects.filter(resident_id=res_id, username=user_id).delete()
+                    #WARNING: we are not going to create alerts for subscription / unsubscription!
                     return HttpResponse(json.dumps({'success': '1'}), content_type="application/json")
                 except:
                     return HttpResponse(json.dumps({'success': '0'}), content_type="application/json")
