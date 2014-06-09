@@ -217,6 +217,7 @@ class EmergencyContact(models.Model):
     address1 = models.CharField(max_length=95)
     address2 = models.CharField(max_length=95)
     city = models.CharField(max_length=30)
+    state = models.CharField(max_length=95)
     zip_code = models.CharField(max_length=16)
     relationship = models.CharField(max_length=50)
 
@@ -234,6 +235,7 @@ class EmergencyContact(models.Model):
             address1=self.address1,
             address2=self.address2,
             city=self.city,
+            state=self.state,
             zip_code=self.zip_code,
             relationship=self.relationship
         )
@@ -274,7 +276,7 @@ class Medication(models.Model):
     generic_name = models.CharField(max_length=70)
     med_expire = models.DateField()
     med_prescribed = models.DateField()
-    med_dose_mg = models.IntegerField()
+    med_dose_mg = models.CharField(max_length=95),
     med_freq = models.TextField()
     med_purpose = models.TextField()
     note = models.TextField()

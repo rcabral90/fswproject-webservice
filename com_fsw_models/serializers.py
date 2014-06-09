@@ -47,7 +47,7 @@ class EmergencyContactSerializer(serializers.HyperlinkedModelSerializer):
         model = EmergencyContact
         fields = (
             'resident_id', 'em_id', 'first_name', 'middle_name', 'last_name', 'phone_number', 'address1', 'address2',
-            'city', 'zip_code', 'relationship')
+            'city', 'state', 'zip_code', 'relationship')
 
 
 class HospitalizationSerializer(serializers.HyperlinkedModelSerializer):
