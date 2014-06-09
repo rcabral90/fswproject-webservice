@@ -1,5 +1,5 @@
 from com_fsw_models import models
-from com_fsw_models.models import Diet, Prescription, Doctor, Hospitalization, MedicationHistory, Resident
+from com_fsw_models.models import Diet, Prescription, Doctor, Hospitalization, MedicationHistory, Resident, Assessment
 
 
 def get_patients(query_id):

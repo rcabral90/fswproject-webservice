@@ -355,6 +355,7 @@ class Notes(models.Model):
 
     def as_json(self):
         return dict(
+            id = self.id,
             resident_id=self.resident_id,
             notes=self.notes
         )

@@ -85,7 +85,7 @@ class NotesSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = Notes
         fields = (
-            'resident_id', 'notes')
+            'id', 'resident_id', 'notes')
 
 
 class PhysicalSerializer(serializers.HyperlinkedModelSerializer):
