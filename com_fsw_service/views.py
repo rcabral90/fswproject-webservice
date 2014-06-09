@@ -339,8 +339,17 @@ def delete(request):
                     return HttpResponse(json.dumps({'success': '1'}), content_type="application/json")
                 except:
                     return HttpResponse(json.dumps({'success': '0'}), content_type="application/json")
-                    #if(type == "11"):
-                    #notes don't have an ID number
+            if (type == "11"):
+                #delete the note
+                try:
+                    Notes.objects.filter(id=row_id).delete()
+                    #create a new alert
+                    new_alert = Alerts(resident_id=res_id, username=user_id, general_text=delete_message, flag=0,
+                                       date_time_modified=date_time, type=1)
+                    new_alert.save()
+                    return HttpResponse(json.dumps({'success': '1'}), content_type="application/json")
+                except:
+                    return HttpResponse(json.dumps({'success': '0'}), content_type="application/json")
             if (type == "12"):
                 #delete the diet
                 try:
