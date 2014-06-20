@@ -276,7 +276,7 @@ class Medication(models.Model):
     generic_name = models.CharField(max_length=70)
     med_expire = models.DateField()
     med_prescribed = models.DateField()
-    med_dose_mg = models.CharField(max_length=95),
+    med_dose_mg = models.TextField()
     med_freq = models.TextField()
     med_purpose = models.TextField()
     note = models.TextField()
