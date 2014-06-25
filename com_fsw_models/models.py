@@ -423,6 +423,7 @@ class Resident(models.Model):
     photo = models.CharField(max_length=100, blank=True)
     flu_shot = models.DateField()
     dnr = models.BooleanField()
+    deactivated = models.IntegerField()
 
     class Meta:
         db_table = 'resident'
@@ -442,7 +443,9 @@ class Resident(models.Model):
             cell_phone=self.cell_phone,
             date_of_birth=self.date_of_birth,
             photo=self.photo,
-            flu_shot=self.flu_shot
+            flu_shot=self.flu_shot,
+            dnr=self.dnr,
+            deactived=self.deactivated
 
         )
 

@@ -109,7 +109,7 @@ class ResidentSerializer(serializers.HyperlinkedModelSerializer):
         fields = (
             'resident_id', 'first_name', 'middle_name', 'last_name',
             'address1', 'address2', 'city', 'state', 'zip_code', 'home_phone', 'cell_phone', 'date_of_birth', 'photo',
-            'flu_shot', 'dnr')
+            'flu_shot', 'dnr', 'deactivated')
 
 
 class ResidentToDoctorSerializer(serializers.HyperlinkedModelSerializer):
