@@ -217,14 +217,18 @@ def delete(request):
         #15 = subscription
         if (type):
             if (type == "0"):
-                #delete the resident
+                #deactivate the resident (note you will need to implement a way to re-activate later)
                 try:
-                    Resident.objects.filter(resident_id=res_id).delete()
-                    #delete all links to this resident
-                    #delete all resident_to_doctor links
+                    #Resident.objects.filter(resident_id=res_id).delete()
+                    resident = Resident.objects.get(resident_id=res_id)
+                    resident.deactivated = 1
+                    resident.save()
+                    #create a new alert
+                    #new_alert = Alerts(resident_id=res_id, username=user_id, general_text=delete_message, flag=0, date_time_modified=date_time, type=1)
+                    #new_alert.save()
                     return HttpResponse(json.dumps({'success': '1'}), content_type="application/json")
                 except:
-                    return HttpResponse(json.dumps({'success': '0'}), content_type="application/json")
+                    return HttpResponse(json.dumps({'success': date_time}), content_type="application/json")
             if (type == "1"):
                 #delete the medication
                 try:
