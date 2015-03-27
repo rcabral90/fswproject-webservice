@@ -1,7 +1,7 @@
 fswproject-webservice
 =====================
 
-Web service for the FSW project
+##FSW Project Web Service
 
 __Install dependencies:__
 
