@@ -4,7 +4,7 @@ fswproject-webservice
 ##FSW Project Web Service
 
 __Using:__<br>
-- Django 1.6
+- Django 1.5
 - Python 2.7
 
 __Install dependencies:__
