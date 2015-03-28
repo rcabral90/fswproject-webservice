@@ -7,7 +7,8 @@ __Using:__<br>
 - Django 1.6
 - Python 2.7
 
-__Install dependencies:__<br>
+__Install dependencies:__
+
 	$ sudo pip install django
 	$ sudo pip install simplejson
 	$ sudo pip install djangorestframework
@@ -15,5 +16,6 @@ __Install dependencies:__<br>
 	$ sudo pip install django-cors-headers
 	$ sudo pip install django-admin-bootstrapped
 
-__Run:__<br>
+__Run:__
+
 	$ python manage.py runserver
